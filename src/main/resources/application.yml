@@ -1,12 +1,21 @@
-spring:
-  server:
-    port: 8080
+server:
+  port: 8081
 
+logging:
+  level:
+    com.example.kafka.producer: debug
+
+spring:
   kafka:
+    bootstrap-servers: localhost:29092
     producer:
-      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            trusted.packages: "*"
+            type.mapping: "testMessage:com.example.kafka.producer.domain.dto.TestMessage"
 
   output:
     ansi:
